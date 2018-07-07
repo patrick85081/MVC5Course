@@ -14,7 +14,7 @@ namespace MVC5Course.Controllers
 {
     public class ProductsController : Controller
     {
-        private FabricsEntities db = new FabricsEntities();
+        private readonly FabricsEntities db = new FabricsEntities();
 
         // GET: Products
         public ActionResult Index()
@@ -35,6 +35,7 @@ namespace MVC5Course.Controllers
                 .ToArray()
                 .Select(p => Mapper.Map<Product, ProductViewModel>(p))
                 .ToList();
+
             return View(data);
         }
 
