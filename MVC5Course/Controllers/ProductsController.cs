@@ -5,7 +5,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
-using System.Web.ModelBinding;
 using System.Web.Mvc;
 using MVC5Course.Models;
 using MVC5Course.Models.ViewModels;
@@ -34,8 +33,7 @@ namespace MVC5Course.Controllers
                 .OrderByDescending(p => p.ProductId)
                 .Take(10)
                 .ToArray()
-                .Select(p => new ProductViewModel().InjectFrom(p))
-                .Cast<ProductViewModel>()
+                .Select(p => Mapper.Map<Product, ProductViewModel>(p))
                 .ToList();
             return View(data);
         }
@@ -53,7 +51,7 @@ namespace MVC5Course.Controllers
             {
                 return View();
             }
-            
+
             var product = new Product();
             product.InjectFrom(data);
             product.Active = true;
@@ -65,14 +63,14 @@ namespace MVC5Course.Controllers
 
         public ActionResult UpdateProduct(int? id)
         {
-            if(id == null)
-                return new HttpNotFoundResult();
+            if (id == null)
+                return HttpNotFound();
 
             var product = db.Product.Find(id);
 
-            if(product == null)
-                return new HttpNotFoundResult();
-            
+            if (product == null)
+                return HttpNotFound();
+
             var productViewModel = new ProductViewModel();
             productViewModel.InjectFrom(product);
             return View(productViewModel);
@@ -87,9 +85,23 @@ namespace MVC5Course.Controllers
             var product = db.Product.Find(productViewModel.ProductId);
 
             if (product == null)
-                return new HttpNotFoundResult();
-            
+                return HttpNotFound();
+
             product.InjectFrom(productViewModel);
+            db.SaveChanges();
+
+            return RedirectToAction("Index2");
+        }
+
+        public ActionResult DeleteProduct(int? id)
+        {
+            if (id == null)
+                return RedirectToAction("Index2");
+
+            var product = db.Product.Find(id);
+            if (product == null)
+                return HttpNotFound();
+            db.Product.Remove(product);
             db.SaveChanges();
 
             return RedirectToAction("Index2");
@@ -117,7 +129,7 @@ namespace MVC5Course.Controllers
         }
 
         // POST: Products/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -127,6 +139,7 @@ namespace MVC5Course.Controllers
             {
                 db.Product.Add(product);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
@@ -149,7 +162,7 @@ namespace MVC5Course.Controllers
         }
 
         // POST: Products/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]

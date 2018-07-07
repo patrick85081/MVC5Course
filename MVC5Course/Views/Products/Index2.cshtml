@@ -31,7 +31,7 @@
     <tr>
         <th>
             @Html.ActionLink("修改", "UpdateProduct", new {id = item.ProductId}) |
-            刪除
+            @Html.ActionLink("刪除", "DeleteProduct", new {id = item.ProductId})
         </th>
         <td>
             @Html.DisplayFor(modelItem => item.ProductId)
