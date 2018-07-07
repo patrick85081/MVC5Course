@@ -9,6 +9,7 @@ using System.Web.ModelBinding;
 using System.Web.Mvc;
 using MVC5Course.Models;
 using MVC5Course.Models.ViewModels;
+using Omu.ValueInjecter;
 
 namespace MVC5Course.Controllers
 {
@@ -32,13 +33,9 @@ namespace MVC5Course.Controllers
                 .Where(p => p.Active == true)
                 .OrderByDescending(p => p.ProductId)
                 .Take(10)
-                .Select(p => new ProductViewModel
-                {
-                    ProductId = p.ProductId,
-                    Price = p.Price,
-                    ProductName = p.ProductName,
-                    Stock = p.Stock
-                })
+                .ToArray()
+                .Select(p => new ProductViewModel().InjectFrom(p))
+                .Cast<ProductViewModel>()
                 .ToList();
             return View(data);
         }
@@ -57,14 +54,10 @@ namespace MVC5Course.Controllers
                 return View();
             }
             
-            db.Product.Add(new Product()
-            {
-                ProductId = data.ProductId,
-                ProductName = data.ProductName,
-                Price = data.Price,
-                Stock = data.Stock,
-                Active = true,
-            });
+            var product = new Product();
+            product.InjectFrom(data);
+            product.Active = true;
+            db.Product.Add(product);
             db.SaveChanges();
 
             return RedirectToAction("Index2");
@@ -79,14 +72,9 @@ namespace MVC5Course.Controllers
 
             if(product == null)
                 return new HttpNotFoundResult();
-
-            var productViewModel = new ProductViewModel()
-            {
-                ProductId = product.ProductId,
-                ProductName = product.ProductName,
-                Price = product.Price,
-                Stock = product.Stock
-            };
+            
+            var productViewModel = new ProductViewModel();
+            productViewModel.InjectFrom(product);
             return View(productViewModel);
         }
 
@@ -100,11 +88,8 @@ namespace MVC5Course.Controllers
 
             if (product == null)
                 return new HttpNotFoundResult();
-
-            product.ProductId = productViewModel.ProductId;
-            product.ProductName = productViewModel.ProductName;
-            product.Price = productViewModel.Price;
-            product.Stock = productViewModel.Stock;
+            
+            product.InjectFrom(productViewModel);
             db.SaveChanges();
 
             return RedirectToAction("Index2");
