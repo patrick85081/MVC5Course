@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MVC5Course.Models;
+using MVC5Course.Models.ViewModels;
 
 namespace MVC5Course.Controllers
 {
@@ -17,7 +18,28 @@ namespace MVC5Course.Controllers
         // GET: Products
         public ActionResult Index()
         {
-            return View(db.Product.ToList());
+            var products = db.Product
+                .OrderByDescending(p => p.ProductId)
+                .Take(10)
+                .ToList();
+            return View(products);
+        }
+
+        public ActionResult Index2()
+        {
+            var data = db.Product
+                .Where(p => p.Active == true)
+                .OrderByDescending(p => p.ProductId)
+                .Take(10)
+                .Select(p => new ProductViewModel
+                {
+                    ProductId = p.ProductId,
+                    Price = p.Price,
+                    ProductName = p.ProductName,
+                    Stock = p.Stock
+                })
+                .ToList();
+            return View(data);
         }
 
         // GET: Products/Details/5
