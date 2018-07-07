@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.ModelBinding;
 using System.Web.Mvc;
 using MVC5Course.Models;
 using MVC5Course.Models.ViewModels;
@@ -40,6 +41,73 @@ namespace MVC5Course.Controllers
                 })
                 .ToList();
             return View(data);
+        }
+
+        public ActionResult AddNewProduct()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddNewProduct(ProductViewModel data)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            
+            db.Product.Add(new Product()
+            {
+                ProductId = data.ProductId,
+                ProductName = data.ProductName,
+                Price = data.Price,
+                Stock = data.Stock,
+                Active = true,
+            });
+            db.SaveChanges();
+
+            return RedirectToAction("Index2");
+        }
+
+        public ActionResult UpdateProduct(int? id)
+        {
+            if(id == null)
+                return new HttpNotFoundResult();
+
+            var product = db.Product.Find(id);
+
+            if(product == null)
+                return new HttpNotFoundResult();
+
+            var productViewModel = new ProductViewModel()
+            {
+                ProductId = product.ProductId,
+                ProductName = product.ProductName,
+                Price = product.Price,
+                Stock = product.Stock
+            };
+            return View(productViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateProduct(ProductViewModel productViewModel)
+        {
+            if (!ModelState.IsValid)
+                return View(productViewModel);
+
+            var product = db.Product.Find(productViewModel.ProductId);
+
+            if (product == null)
+                return new HttpNotFoundResult();
+
+            product.ProductId = productViewModel.ProductId;
+            product.ProductName = productViewModel.ProductName;
+            product.Price = productViewModel.Price;
+            product.Stock = productViewModel.Stock;
+            db.SaveChanges();
+
+            return RedirectToAction("Index2");
         }
 
         // GET: Products/Details/5

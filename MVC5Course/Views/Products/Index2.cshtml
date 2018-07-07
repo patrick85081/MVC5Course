@@ -7,10 +7,14 @@
 <h2>Index2</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("加入新產品", "AddNewProduct")
 </p>
 <table class="table table-bordered table-hover table-striped">
     <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductId)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.ProductName)
         </th>
@@ -20,12 +24,18 @@
         <th>
             @Html.DisplayNameFor(model => model.Stock)
         </th>
-        <th></th>
     </tr>
 
 @foreach (var item in Model)
 {
     <tr>
+        <th>
+            @Html.ActionLink("修改", "UpdateProduct", new {id = item.ProductId}) |
+            刪除
+        </th>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductId)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.ProductName)
         </td>
