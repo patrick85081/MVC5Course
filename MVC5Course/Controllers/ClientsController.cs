@@ -23,6 +23,7 @@ namespace MVC5Course.Controllers
         }
 
         // GET: Clients
+        [Route("Index")]
         public ActionResult Index()
         {
             var client = clientRepository.All()
@@ -32,6 +33,7 @@ namespace MVC5Course.Controllers
             return View(client);
         }
 
+        [Route("Find.aspx")]
         public ActionResult Search(string keyword)
         {
             var client = clientRepository.Search(keyword);
@@ -39,7 +41,22 @@ namespace MVC5Course.Controllers
             return View("Index", client);
         }
 
+        [Route("{first}/{middle}/{last}")]
+        public ActionResult Details(string first, string middle, string last)
+        {
+            Client client = clientRepository.All()
+                .FirstOrDefault(c => c.FirstName == first &&
+                                     c.MiddleName == middle &&
+                                     c.LastName == last);
+            if (client == null)
+            {
+                return HttpNotFound();
+            }
+            return View(client);
+        }
+
         // GET: Clients/Details/5
+        [Route("{id}")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -55,6 +72,7 @@ namespace MVC5Course.Controllers
         }
 
         // GET: Clients/Create
+        [Route("Create")]
         public ActionResult Create()
         {
             ViewBag.OccupationId = new SelectList(occupationRepository.All(), "OccupationId", "OccupationName");
@@ -66,6 +84,7 @@ namespace MVC5Course.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Create")]
         public ActionResult Create([Bind(Include = "ClientId,FirstName,MiddleName,LastName,Gender,DateOfBirth,CreditRating,XCode,OccupationId,TelephoneNumber,Street1,Street2,City,ZipCode,Longitude,Latitude,Notes,IdNumber")] Client client)
         {
             if (ModelState.IsValid)
@@ -81,6 +100,7 @@ namespace MVC5Course.Controllers
         }
 
         // GET: Clients/Edit/5
+        [Route("Edit_{id:int?}")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -99,6 +119,7 @@ namespace MVC5Course.Controllers
         // POST: Clients/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("Edit_{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ClientId,FirstName,MiddleName,LastName,Gender,DateOfBirth,CreditRating,XCode,OccupationId,TelephoneNumber,Street1,Street2,City,ZipCode,Longitude,Latitude,Notes,IdNumber")] Client client)
@@ -115,6 +136,7 @@ namespace MVC5Course.Controllers
         }
 
         // GET: Clients/Delete/5
+        [Route("Delete_{id?}")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -132,6 +154,7 @@ namespace MVC5Course.Controllers
         // POST: Clients/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("Delete_{id}")]
         public ActionResult DeleteConfirmed(int id)
         {
             Client client = clientRepository.Find(id);

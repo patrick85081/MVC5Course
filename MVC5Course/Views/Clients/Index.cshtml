@@ -59,9 +59,10 @@
             @Html.DisplayFor(modelItem => item.CreditRating)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ClientId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ClientId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ClientId })
+            @Html.ActionLink("Edit", "Edit", new { id = item.ClientId }) |
+            @Html.ActionLink("DetailsFromId", "Details", new { id = item.ClientId }) |
+            @Html.ActionLink("DetailsFromName", "Details", new { first = item.FirstName, middle = item.MiddleName, last = item.LastName }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ClientId })
         </td>
     </tr>
 }
