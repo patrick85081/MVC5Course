@@ -5,7 +5,7 @@
 }
 
 <h2>Index</h2>
-@using (Html.BeginForm("Search", "Clients", null, FormMethod.Get))
+@using (Html.BeginForm("Index", "Clients", null, FormMethod.Get))
 {
     @Html.TextBox("keyword", null, new {pleaceholder = "請輸入關鍵字"})
     <input type="submit"/>

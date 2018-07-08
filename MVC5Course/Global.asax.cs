@@ -17,6 +17,10 @@ namespace MVC5Course
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutofacConfig.Register();
+
+            ViewEngines.Engines.Clear();
+            ViewEngines.Engines.Add(new RazorViewEngine());
+            //ViewEngines.Engines.Add(new WebFormViewEngine());
         }
     }
 }

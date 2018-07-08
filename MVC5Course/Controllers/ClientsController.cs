@@ -22,19 +22,8 @@ namespace MVC5Course.Controllers
             this.occupationRepository = occupationRepository;
         }
 
-        // GET: Clients
         [Route("Index")]
-        public ActionResult Index()
-        {
-            var client = clientRepository.All()
-                .OrderByDescending(c => c.ClientId)
-                .GetPage();
-
-            return View(client);
-        }
-
-        [Route("Find.aspx")]
-        public ActionResult Search(string keyword)
+        public ActionResult Index(string keyword)
         {
             var client = clientRepository.Search(keyword);
 
