@@ -25,7 +25,9 @@ namespace MVC5Course.Controllers
         // GET: Clients
         public ActionResult Index()
         {
-            var client = clientRepository.GetPageClients();
+            var client = clientRepository.All()
+                .OrderByDescending(c => c.ClientId)
+                .GetPage();
 
             return View(client);
         }
@@ -119,7 +121,7 @@ namespace MVC5Course.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Client client = clientRepository.Find(id.Value);
+            Client client = clientRepository.Find(id);
             if (client == null)
             {
                 return HttpNotFound();

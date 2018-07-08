@@ -6,12 +6,14 @@ namespace MVC5Course.Models
 {   
 	public  class ClientRepository : EFRepository<Client>, IClientRepository
 	{
-	    public IQueryable<Client> GetPageClients(int page = 1, int pageCount = 10)
+	    public override IQueryable<Client> All()
 	    {
-	        return this.All()
-	            .OrderByDescending(c => c.ClientId)
-	            .Skip((page - 1) * pageCount)
-	            .Take(pageCount);
+	        return base.All().Where(c => !c.IsDelete);
+	    }
+
+	    public override void Delete(Client entity)
+	    {
+	        entity.IsDelete = true;
 	    }
 
 	    public Client Find(int? id) =>
@@ -32,7 +34,6 @@ namespace MVC5Course.Models
 
 	public  interface IClientRepository : IRepository<Client>
 	{
-	    IQueryable<Client> GetPageClients(int page = 1, int pageCount = 10);
 	    Client Find(int? id);
 	    IQueryable<Client> Search(string keyword);
 	}

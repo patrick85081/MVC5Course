@@ -25,10 +25,11 @@ namespace MVC5Course
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
             //builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
-            builder.Register<IClientRepository>(c => RepositoryHelper.GetClientRepository());
-            builder.Register<IOccupationRepository>(c => RepositoryHelper.GetOccupationRepository());
-            builder.Register<IProductRepository>(c => RepositoryHelper.GetProductRepository());
-            builder.Register<IOrderLineRepository>(c => RepositoryHelper.GetOrderLineRepository());
+            builder.Register<IUnitOfWork>(c => RepositoryHelper.GetUnitOfWork());
+            builder.Register<IClientRepository>(c => RepositoryHelper.GetClientRepository(c.Resolve<IUnitOfWork>()));
+            builder.Register<IOccupationRepository>(c => RepositoryHelper.GetOccupationRepository(c.Resolve<IUnitOfWork>()));
+            builder.Register<IProductRepository>(c => RepositoryHelper.GetProductRepository(c.Resolve<IUnitOfWork>()));
+            builder.Register<IOrderLineRepository>(c => RepositoryHelper.GetOrderLineRepository(c.Resolve<IUnitOfWork>()));
 
             // 建立容器
             IContainer container = builder.Build();

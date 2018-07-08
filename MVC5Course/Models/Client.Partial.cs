@@ -80,6 +80,7 @@ namespace MVC5Course.Models
 
         [身份證字號驗證]
         public string IdNumber { get; set; }
+        public bool IsDelete { get; set; }
 
         public virtual Occupation Occupation { get; set; }
         public virtual ICollection<Order> Order { get; set; }
