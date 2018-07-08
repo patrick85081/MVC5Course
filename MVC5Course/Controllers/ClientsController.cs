@@ -10,6 +10,7 @@ using MVC5Course.Models;
 
 namespace MVC5Course.Controllers
 {
+    [RoutePrefix("Clients")]
     public class ClientsController : Controller
     {
         private FabricsEntities db = new FabricsEntities();
@@ -19,6 +20,20 @@ namespace MVC5Course.Controllers
         {
             var client = db.Client.Include(c => c.Occupation);
             return View(client.OrderByDescending(c => c.ClientId).Take(10).ToList());
+        }
+
+        public ActionResult Search(string keyword)
+        {
+            var client = db.Client.AsQueryable();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                client = client.Where(c => c.FirstName.Contains(keyword));
+            }
+
+            client = client.OrderByDescending(c => c.ClientId).Take(10);
+
+            return View("Index", client);
         }
 
         // GET: Clients/Details/5
