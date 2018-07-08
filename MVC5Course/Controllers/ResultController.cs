@@ -46,15 +46,20 @@ namespace MVC5Course.Controllers
 
         public ActionResult FileTest(string dl)
         {
-            if (string.IsNullOrEmpty(dl))
-                return File(
-                    Server.MapPath("~/App_Data/Image.jpg"),
-                    "image/jpeg");
-            else
-                return File(
-                    Server.MapPath("~/App_Data/Image.jpg"),
-                    "image/jpeg",
-                    "FIFA.jpg");
+            //if (string.IsNullOrEmpty(dl))
+            //    return File(
+            //        Server.MapPath("~/App_Data/Image.jpg"),
+            //        "image/jpeg");
+            //else
+            //    return File(
+            //        Server.MapPath("~/App_Data/Image.jpg"),
+            //        "image/jpeg",
+            //        "FIFA.jpg");
+
+            return File(
+                Server.MapPath("~/App_Data/Image.jpg"),
+                "image/jpg",
+                "FIFA.jpg");
         }
     }
 }
