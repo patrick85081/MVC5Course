@@ -13,8 +13,14 @@ namespace MVC5Course.Controllers
     [RoutePrefix("Clients")]
     public class ClientsController : Controller
     {
-        private IClientRepository clientRepository = RepositoryHelper.GetClientRepository();
-        private IOccupationRepository occupationRepository = RepositoryHelper.GetOccupationRepository();
+        private readonly IClientRepository clientRepository;
+        private readonly IOccupationRepository occupationRepository;
+
+        public ClientsController(IClientRepository clientRepository, IOccupationRepository occupationRepository)
+        {
+            this.clientRepository = clientRepository;
+            this.occupationRepository = occupationRepository;
+        }
 
         // GET: Clients
         public ActionResult Index()

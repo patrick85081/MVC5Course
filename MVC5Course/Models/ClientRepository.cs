@@ -35,7 +35,5 @@ namespace MVC5Course.Models
 	    IQueryable<Client> GetPageClients(int page = 1, int pageCount = 10);
 	    Client Find(int? id);
 	    IQueryable<Client> Search(string keyword);
-
-
 	}
 }
