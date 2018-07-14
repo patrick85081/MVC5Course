@@ -11,7 +11,7 @@ using MVC5Course.Models.ViewModels;
 
 namespace MVC5Course.Controllers
 {
-    //[RoutePrefix("Clients")]
+    [RoutePrefix("Clients")]
     public class ClientsController : BaseController //Controller
     {
         private readonly IClientRepository clientRepository;
@@ -139,13 +139,12 @@ namespace MVC5Course.Controllers
         [Route("Edit_{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ClientId,FirstName,MiddleName,LastName,Gender,DateOfBirth,CreditRating,XCode,OccupationId,TelephoneNumber,Street1,Street2,City,ZipCode,Longitude,Latitude,Notes,IdNumber")] Client client)
+        public ActionResult Edit(int id, FormCollection form)
         {
-            if (ModelState.IsValid)
+            var client = clientRepository.Find(id);
+            if (TryUpdateModel(client, valueProvider: new FormValueProvider(this.ControllerContext)))
             {
-                var db = clientRepository.UnitOfWork.Context;
-                db.Entry(client).State = EntityState.Modified;
-                db.SaveChanges();
+                clientRepository.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
             ViewBag.OccupationId = new SelectList(occupationRepository.All(), "OccupationId", "OccupationName", client.OccupationId);
