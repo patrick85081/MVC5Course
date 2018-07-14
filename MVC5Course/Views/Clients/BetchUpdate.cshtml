@@ -1,0 +1,89 @@
+﻿@model IEnumerable<MVC5Course.Models.Client>
+
+@{
+    ViewBag.Title = "BetchUpdate";
+}
+
+<h2>BetchUpdate</h2>
+
+@using (Html.BeginForm("BetchUpdate","Clients", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Client</h4>
+        <hr />
+
+        @{
+            var clientVms = Model.ToList();
+        }
+
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MiddleName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Gender)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateOfBirth)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreditRating)
+                </th>
+                <th></th>
+            </tr>
+
+            @for (int i = 0; i < clientVms.Count(); i++)
+            {
+                @Html.HiddenFor(model => clientVms[i].ClientId)
+                @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+
+                <tr>
+                    <td>
+                        @Html.EditorFor(model => clientVms[i].FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => clientVms[i].FirstName, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => clientVms[i].MiddleName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => clientVms[i].MiddleName, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => clientVms[i].LastName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => clientVms[i].LastName, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => clientVms[i].Gender, new { htmlAttributes = new { @class = "form-control" } })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => clientVms[i].DateOfBirth, new { htmlAttributes = new { @class = "form-control" } })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => clientVms[i].CreditRating, new { htmlAttributes = new { @class = "form-control" } })
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <div class="form-group">
+            <div class="col-md-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+    <hr />
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

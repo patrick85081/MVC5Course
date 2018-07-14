@@ -260,6 +260,7 @@
       <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Validation\身份證字號驗證Attribute.cs" />
+    <Compile Include="Models\ViewModels\ClientBatchViewModel.cs" />
     <Compile Include="Models\ViewModels\ProductViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -347,6 +348,7 @@
     <Content Include="Views\ModelBinding\ViewDataDemo.cshtml" />
     <Content Include="Views\ModelBinding\ViewBagDemo.cshtml" />
     <Content Include="Views\ModelBinding\Index.cshtml" />
+    <Content Include="Views\Clients\BetchUpdate.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

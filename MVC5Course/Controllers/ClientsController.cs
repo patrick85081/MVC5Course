@@ -7,10 +7,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MVC5Course.Models;
+using MVC5Course.Models.ViewModels;
 
 namespace MVC5Course.Controllers
 {
-    [RoutePrefix("Clients")]
+    //[RoutePrefix("Clients")]
     public class ClientsController : BaseController //Controller
     {
         private readonly IClientRepository clientRepository;
@@ -28,6 +29,33 @@ namespace MVC5Course.Controllers
             var client = clientRepository.Search(keyword);
 
             return View("Index", client);
+        }
+
+        [HttpGet]
+        public ActionResult BetchUpdate()
+        {
+            var client = clientRepository.All().Take(10);
+            return View(client);
+        }
+
+        [HttpPost]
+        public ActionResult BetchUpdate(IList<ClientBatchViewModel> clientVms)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var vm in clientVms)
+                {
+                    var client = clientRepository.Find(vm.ClientId);
+                    client.FirstName = vm.FirstName;
+                    client.MiddleName = vm.MiddleName;
+                    client.LastName = vm.LastName;
+                }
+                clientRepository.UnitOfWork.Commit();
+
+                return RedirectToAction("BetchUpdate");
+            }
+
+            return BetchUpdate();
         }
 
         [Route("{first}/{middle}/{last}")]

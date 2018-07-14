@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
+using System.Linq;
 
 namespace MVC5Course.Models
 {
@@ -12,9 +15,23 @@ namespace MVC5Course.Models
 		}
 
 		public void Commit()
-		{
-			Context.SaveChanges();
-		}
+        {
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                var errors = new List<string>();
+                errors = (
+                    from vError in ex.EntityValidationErrors
+                    from err in vError.ValidationErrors
+                 select $"{err.PropertyName}: {err.ErrorMessage}"
+                    ).ToList();
+
+                throw ex;
+            }
+        }
 		
 		public bool LazyLoadingEnabled
 		{
