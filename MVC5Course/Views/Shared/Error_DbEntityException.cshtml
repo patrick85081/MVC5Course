@@ -1,0 +1,19 @@
+﻿@using System.Data.Entity.Validation
+@using System.Linq
+@model HandleErrorInfo
+@{
+    ViewBag.Title = "Error_DbEntityException";
+}
+
+<h2>Error_DbEntityException</h2>
+
+@{
+    var message = string.Join("<br/>", 
+        (from vError in (Model.Exception as DbEntityValidationException).EntityValidationErrors
+        from err in vError.ValidationErrors
+        select $"{err.PropertyName} : {err.ErrorMessage}"));
+        
+}
+<pre>
+@Html.Raw(message)
+</pre>

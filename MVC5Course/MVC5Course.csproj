@@ -350,6 +350,7 @@
     <Content Include="Views\ModelBinding\ViewBagDemo.cshtml" />
     <Content Include="Views\ModelBinding\Index.cshtml" />
     <Content Include="Views\Clients\BetchUpdate.cshtml" />
+    <Content Include="Views\Shared\Error_DbEntityException.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

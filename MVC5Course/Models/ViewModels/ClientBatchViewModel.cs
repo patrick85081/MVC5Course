@@ -9,11 +9,11 @@ namespace MVC5Course.Models.ViewModels
     public class ClientBatchViewModel
     {
         public int ClientId { get; set; }
-        [Required]
+        //[Required]
         public string FirstName { get; set; }
-        [Required]
+        //[Required]
         public string MiddleName { get; set; }
-        [Required]
+        //[Required]
         public string LastName { get; set; }
     }
 }
