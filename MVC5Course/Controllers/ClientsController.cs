@@ -142,7 +142,7 @@ namespace MVC5Course.Controllers
         public ActionResult Edit(int id, FormCollection form)
         {
             var client = clientRepository.Find(id);
-            if (TryUpdateModel(client, valueProvider: new FormValueProvider(this.ControllerContext)))
+            if (TryUpdateModel<IClientViewModel>(client))
             {
                 clientRepository.UnitOfWork.Commit();
                 return RedirectToAction("Index");

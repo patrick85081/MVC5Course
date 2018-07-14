@@ -12,7 +12,7 @@ namespace MVC5Course.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Client
+    public partial class Client : IClientViewModel
     {
         partial void Initialize();
     
