@@ -9,6 +9,11 @@ namespace MVC5Course.Models
     [MetadataType(typeof(ClientMetaData))]
     public partial class Client : IValidatableObject
     {
+        partial void Initialize()
+        {
+            //TODO your init
+        }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (this.DateOfBirth == null)
