@@ -158,6 +158,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ModelBindingController.cs" />
+    <Compile Include="Controllers\RemoteOnlyAttribute.cs" />
     <Compile Include="Controllers\XmlResult.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
