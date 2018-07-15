@@ -1,0 +1,22 @@
+﻿@{
+    Layout = null;
+    int[] items = Enumerable.Range(1, 5).ToArray();
+}
+@foreach(var item in items)
+{
+    @item
+}
+
+
+@foreach(var item in items)
+{
+    @(item + " ") 
+}
+
+
+<ul>
+@foreach (var item in items)
+{
+  <li>@item</li>
+}
+</ul>

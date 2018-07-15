@@ -158,6 +158,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ModelBindingController.cs" />
+    <Compile Include="Controllers\RazorController.cs" />
     <Compile Include="Controllers\RemoteOnlyAttribute.cs" />
     <Compile Include="Controllers\XmlResult.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -352,6 +353,7 @@
     <Content Include="Views\ModelBinding\Index.cshtml" />
     <Content Include="Views\Clients\BetchUpdate.cshtml" />
     <Content Include="Views\Shared\Error_DbEntityException.cshtml" />
+    <Content Include="Views\Razor\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
